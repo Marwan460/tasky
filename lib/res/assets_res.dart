@@ -9,7 +9,11 @@ class AssetsRes {
   static const String PROJECT_NAME = 'tasky';
   static const String PROJECT_VERSION = '1.0.0+1';
   static const String AVATAR = 'assets/images/avatar.svg';
+  static const String COMPLETE = 'assets/images/complete.svg';
+  static const String HOME = 'assets/images/home.svg';
   static const String LOGO = 'assets/images/logo.svg';
+  static const String PROFILE = 'assets/images/profile.svg';
+  static const String TO_DO = 'assets/images/to_do.svg';
   static const String WAVING_HAND = 'assets/images/waving-hand.svg';
   static const String WELCOME = 'assets/images/welcome.svg';
 }

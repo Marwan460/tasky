@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tasky/core/utils/app_colors.dart';
 import 'package:tasky/core/widgets/custom_button.dart';
 import 'package:tasky/core/widgets/custom_text_form_field.dart';
 import 'package:tasky/res/assets_res.dart';
-
+import 'package:tasky/screens/main_screen.dart';
 import '../core/utils/app_style.dart';
-import 'home_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -23,7 +21,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primary,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Form(
@@ -106,7 +103,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const HomeScreen(),
+                                builder: (context) => const MainScreen(),
                               ),
                             );
                           }

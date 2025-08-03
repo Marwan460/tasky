@@ -6,6 +6,7 @@ import 'package:tasky/core/utils/app_colors.dart';
 import 'package:tasky/core/utils/app_style.dart';
 import 'package:tasky/core/widgets/custom_button.dart';
 import 'package:tasky/core/widgets/custom_text_form_field.dart';
+import 'package:tasky/models/task_model.dart';
 
 import '../core/widgets/custom_switch.dart';
 
@@ -26,7 +27,6 @@ class _AddTaskState extends State<AddTask> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primary,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
         centerTitle: false,
@@ -71,12 +71,6 @@ class _AddTaskState extends State<AddTask> {
                 hintText:
                     'Finish onboarding UI and hand off to devs by Thursday.',
                 maxLines: 5,
-                validator: (value) {
-                  if ( value == null || value.trim().isEmpty) {
-                    return 'Please Enter Task Description';
-                  }
-                  return null;
-                },
               ),
               const SizedBox(height: 20),
               Row(
@@ -98,22 +92,25 @@ class _AddTaskState extends State<AddTask> {
               ),
               const Spacer(),
               CustomButton(
-                onPressed: () async{
+                onPressed: () async {
                   if (formKey.currentState?.validate() ?? false) {
-                    final task = <String, dynamic> {
-                      'taskName': taskNameController.text,
-                      'taskDescription': taskDescriptionController.text,
-                      'isHighPriority': isHighPriority,
-                    };
+                    TaskModel model = TaskModel(
+                        taskName: taskNameController.text,
+                        taskDescription: taskDescriptionController.text,
+                        isHighPriority: isHighPriority,
+                       );
+
                     final pref = await SharedPreferences.getInstance();
 
-                    final taskEncode = jsonEncode(task);
-
-                    await pref.setString('task', taskEncode);
-
-                    final finalTask = pref.getString('task');
-
-                    final taskDecode = jsonDecode(finalTask ?? '');
+                    final taskJson = pref.getString('tasks');
+                    List<dynamic> listTasks = [];
+                    if (taskJson != null) {
+                      listTasks = jsonDecode(taskJson);
+                    }
+                    listTasks.add(model.toJson());
+                    final taskEncode = jsonEncode(listTasks);
+                    await pref.setString('tasks', taskEncode);
+                    Navigator.pop(context,true);
                   }
                 },
                 title: 'Add Task',

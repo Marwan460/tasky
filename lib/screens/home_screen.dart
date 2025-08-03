@@ -1,11 +1,13 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky/core/utils/app_style.dart';
+import 'package:tasky/core/widgets/task_container.dart';
 import 'package:tasky/res/assets_res.dart';
 import 'package:tasky/screens/add_task.dart';
-
 import '../core/utils/app_colors.dart';
+import '../models/task_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,11 +18,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String? name;
+  List<TaskModel> task = [];
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
     getUserName();
+    loadTasks();
   }
 
   getUserName() async {
@@ -29,10 +34,28 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
   }
 
+  loadTasks() async {
+    setState(() {
+      isLoading = true;
+    });
+    await Future.delayed(const Duration(seconds: 2));
+    final prefs = await SharedPreferences.getInstance();
+    final finalTask = prefs.getString('tasks');
+    if (finalTask != null) {
+      final taskAfterDecode = jsonDecode(finalTask) as List<dynamic>;
+
+      setState(() {
+        task = taskAfterDecode.map((e) => TaskModel.fromJson(e)).toList();
+      });
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primary,
       floatingActionButton: buildFloatingActionButton(),
       body: SafeArea(
         child: Padding(
@@ -84,6 +107,46 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: isLoading
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.white,
+                        ),
+                      )
+                    : task.isEmpty
+                        ? const Center(
+                            child: Text(
+                              'No Tasks Yet',
+                              style: AppStyle.regular24,
+                            ),
+                          )
+                        : ListView.builder(
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).size.height * 0.075),
+                            itemCount: task.length,
+                            itemBuilder: (context, index) {
+                              return TaskContainer(
+                                taskName: task[index].taskName,
+                                taskDescription: task[index].taskDescription,
+                                value: task[index].isDone,
+                                onChanged: (value) async {
+                                  setState(() {
+                                    task[index].isDone = value ?? false;
+                                  });
+                                  final pref =
+                                      await SharedPreferences.getInstance();
+                                  final updateTask =
+                                      task.map((e) => e.toJson()).toList();
+                                  pref.setString(
+                                      'tasks', jsonEncode(updateTask));
+                                },
+                              );
+                            },
+                          ),
+              ),
             ],
           ),
         ),
@@ -95,13 +158,15 @@ class _HomeScreenState extends State<HomeScreen> {
     return SizedBox(
       height: 40,
       child: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async {
+          final bool? result = await Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>  const AddTask(),
+              builder: (context) => const AddTask(),
             ),
           );
+          if ( result != null && result) {loadTasks();}
+
         },
         backgroundColor: AppColors.green,
         foregroundColor: AppColors.white2,

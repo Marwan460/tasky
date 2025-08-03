@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tasky/screens/home_screen.dart';
+import 'package:tasky/screens/main_screen.dart';
 import 'package:tasky/screens/welcome_screen.dart';
+
+import 'core/utils/app_colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,9 +27,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Tasky',
       theme: ThemeData(
+        scaffoldBackgroundColor: AppColors.primary,
         useMaterial3: true,
       ),
-      home: name == null ? const WelcomeScreen() : const HomeScreen(),
+      home: name == null ? const WelcomeScreen() : const MainScreen(),
     );
   }
 }
