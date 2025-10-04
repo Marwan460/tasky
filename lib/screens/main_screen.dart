@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tasky/core/utils/app_colors.dart';
 import 'package:tasky/res/assets_res.dart';
 import 'package:tasky/screens/profile_screen.dart';
-import 'package:tasky/screens/task_screen.dart';
+import 'package:tasky/screens/to_do_tasks_screen.dart';
 
 import 'complete_task_screen.dart';
 import 'home_screen.dart';
@@ -18,7 +18,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final List<Widget> _screens = [
     const HomeScreen(),
-    const TaskScreen(),
+    const ToDoTasks(),
     const CompleteTaskScreen(),
     const ProfileScreen(),
   ];
@@ -75,7 +75,7 @@ class _MainScreenState extends State<MainScreen> {
               label: 'Profile'),
         ],
       ),
-      body: IndexedStack(index: _currentIndex, children: _screens),
+      body: _screens[_currentIndex],
     );
   }
 }

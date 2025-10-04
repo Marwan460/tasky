@@ -20,6 +20,11 @@ abstract class AppStyle {
     fontSize: 16,
     fontWeight: FontWeight.w400,
   );
+  static const TextStyle regular20 = TextStyle(
+    color: AppColors.white2,
+    fontSize: 20,
+    fontWeight: FontWeight.w400,
+  );
 
   static const TextStyle medium14 = TextStyle(
     color: AppColors.white2,

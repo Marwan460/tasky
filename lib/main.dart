@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky/core/utils/app_style.dart';
 import 'package:tasky/screens/main_screen.dart';
 import 'package:tasky/screens/welcome_screen.dart';
 
@@ -28,6 +29,13 @@ class MyApp extends StatelessWidget {
       title: 'Tasky',
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.primary,
+        appBarTheme: AppBarTheme(
+          elevation: 0,
+          color: AppColors.primary,
+          titleTextStyle: AppStyle.regular20,
+          centerTitle: false,
+          iconTheme: const IconThemeData(color: AppColors.white2),
+        ),
         useMaterial3: true,
       ),
       home: name == null ? const WelcomeScreen() : const MainScreen(),

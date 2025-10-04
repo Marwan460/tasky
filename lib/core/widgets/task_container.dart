@@ -13,14 +13,14 @@ class TaskContainer extends StatelessWidget {
       this.value,
       this.onChanged,
       required this.taskName,
-      required this.taskDescription, this.onPressed});
+      required this.taskDescription,
+      this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: Container(
-        height: 50,
         width: double.infinity,
         decoration: BoxDecoration(
           color: AppColors.secondary,
@@ -40,8 +40,9 @@ class TaskContainer extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  SelectableText(
                     taskName,
                     style: AppStyle.regular16.copyWith(
                       color: value == true ? AppColors.grey2 : AppColors.white,
@@ -51,7 +52,7 @@ class TaskContainer extends StatelessWidget {
                       decorationThickness: 1.5,
                     ),
                   ),
-                  Text(
+                  SelectableText(
                     taskDescription,
                     style: AppStyle.regular16.copyWith(
                       color: AppColors.grey2,
@@ -65,7 +66,13 @@ class TaskContainer extends StatelessWidget {
                 ],
               ),
             ),
-            IconButton(onPressed: onPressed, icon: Icon(Icons.more_vert, color: value == true ? AppColors.grey2 : AppColors.white,),)
+            IconButton(
+              onPressed: onPressed,
+              icon: Icon(
+                Icons.more_vert,
+                color: value == true ? AppColors.grey2 : AppColors.white,
+              ),
+            )
           ],
         ),
       ),

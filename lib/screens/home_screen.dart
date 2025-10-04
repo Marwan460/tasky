@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky/core/utils/app_style.dart';
-import 'package:tasky/core/widgets/task_container.dart';
+import 'package:tasky/core/widgets/tasks_list.dart';
 import 'package:tasky/res/assets_res.dart';
-import 'package:tasky/screens/add_task.dart';
 import '../core/utils/app_colors.dart';
 import '../models/task_model.dart';
+import 'add_task_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String? name;
-  List<TaskModel> task = [];
+  List<TaskModel> tasks = [];
   bool isLoading = false;
 
   @override
@@ -38,14 +38,14 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       isLoading = true;
     });
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 300));
     final prefs = await SharedPreferences.getInstance();
     final finalTask = prefs.getString('tasks');
     if (finalTask != null) {
       final taskAfterDecode = jsonDecode(finalTask) as List<dynamic>;
 
       setState(() {
-        task = taskAfterDecode.map((e) => TaskModel.fromJson(e)).toList();
+        tasks = taskAfterDecode.map((e) => TaskModel.fromJson(e)).toList();
       });
     }
     setState(() {
@@ -115,37 +115,19 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: AppColors.white,
                         ),
                       )
-                    : task.isEmpty
-                        ? const Center(
-                            child: Text(
-                              'No Tasks Yet',
-                              style: AppStyle.regular24,
-                            ),
-                          )
-                        : ListView.builder(
-                            padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).size.height * 0.075),
-                            itemCount: task.length,
-                            itemBuilder: (context, index) {
-                              return TaskContainer(
-                                taskName: task[index].taskName,
-                                taskDescription: task[index].taskDescription,
-                                value: task[index].isDone,
-                                onChanged: (value) async {
-                                  setState(() {
-                                    task[index].isDone = value ?? false;
-                                  });
-                                  final pref =
-                                      await SharedPreferences.getInstance();
-                                  final updateTask =
-                                      task.map((e) => e.toJson()).toList();
-                                  pref.setString(
-                                      'tasks', jsonEncode(updateTask));
-                                },
-                              );
-                            },
-                          ),
+                    : TasksList(
+                        tasks: tasks,
+                        onTap: (bool? value, int? index) async {
+                          setState(() {
+                            tasks[index!].isDone = value ?? false;
+                          });
+                          final pref = await SharedPreferences.getInstance();
+                          final updateTask =
+                              tasks.map((e) => e.toJson()).toList();
+                          pref.setString('tasks', jsonEncode(updateTask));
+                          loadTasks();
+                        },
+                      ),
               ),
             ],
           ),
@@ -162,11 +144,12 @@ class _HomeScreenState extends State<HomeScreen> {
           final bool? result = await Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const AddTask(),
+              builder: (context) => const AddTaskScreen(),
             ),
           );
-          if ( result != null && result) {loadTasks();}
-
+          if (result != null && result) {
+            loadTasks();
+          }
         },
         backgroundColor: AppColors.green,
         foregroundColor: AppColors.white2,

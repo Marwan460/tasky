@@ -10,14 +10,14 @@ import 'package:tasky/models/task_model.dart';
 
 import '../core/widgets/custom_switch.dart';
 
-class AddTask extends StatefulWidget {
-  const AddTask({super.key});
+class AddTaskScreen extends StatefulWidget {
+  const AddTaskScreen({super.key});
 
   @override
-  State<AddTask> createState() => _AddTaskState();
+  State<AddTaskScreen> createState() => _AddTaskScreenState();
 }
 
-class _AddTaskState extends State<AddTask> {
+class _AddTaskScreenState extends State<AddTaskScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController taskNameController = TextEditingController();
   final TextEditingController taskDescriptionController =
@@ -28,12 +28,8 @@ class _AddTaskState extends State<AddTask> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.primary,
-        centerTitle: false,
-        iconTheme: const IconThemeData(color: AppColors.white2),
-        title: Text(
+        title: const Text(
           'New Task',
-          style: AppStyle.regular16.copyWith(fontSize: 20),
         ),
       ),
       body: Padding(

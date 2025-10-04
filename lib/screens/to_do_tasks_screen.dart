@@ -2,19 +2,19 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tasky/core/utils/app_colors.dart';
 import 'package:tasky/core/widgets/tasks_list.dart';
 
+import '../core/utils/app_colors.dart';
 import '../models/task_model.dart';
 
-class CompleteTaskScreen extends StatefulWidget {
-  const CompleteTaskScreen({super.key});
+class ToDoTasks extends StatefulWidget {
+  const ToDoTasks({super.key});
 
   @override
-  State<CompleteTaskScreen> createState() => _CompleteTaskScreenState();
+  State<ToDoTasks> createState() => _ToDoTasksState();
 }
 
-class _CompleteTaskScreenState extends State<CompleteTaskScreen> {
+class _ToDoTasksState extends State<ToDoTasks> {
   List<TaskModel> tasks = [];
   bool isLoading = false;
 
@@ -28,14 +28,14 @@ class _CompleteTaskScreenState extends State<CompleteTaskScreen> {
     setState(() {
       isLoading = true;
     });
-    await Future.delayed(const Duration(milliseconds: 300));
+    await Future.delayed(const Duration(milliseconds: 500));
     final prefs = await SharedPreferences.getInstance();
     final finalTask = prefs.getString('tasks');
     if (finalTask != null) {
       final taskAfterDecode = jsonDecode(finalTask) as List<dynamic>;
 
       setState(() {
-        tasks = taskAfterDecode.map((e) => TaskModel.fromJson(e)).where((e) => e.isDone == true).toList();
+        tasks = taskAfterDecode.map((e) => TaskModel.fromJson(e)).where((e) => e.isDone == false).toList();
       });
     }
     setState(() {
@@ -47,14 +47,14 @@ class _CompleteTaskScreenState extends State<CompleteTaskScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Completed Tasks'),
+        title: const Text('To Do Tasks'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: isLoading
             ? const Center(
                 child: CircularProgressIndicator(
-                  color: AppColors.white2,
+                  color: AppColors.white,
                 ),
               )
             : TasksList(
