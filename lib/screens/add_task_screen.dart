@@ -90,23 +90,27 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               CustomButton(
                 onPressed: () async {
                   if (formKey.currentState?.validate() ?? false) {
-                    TaskModel model = TaskModel(
-                        taskName: taskNameController.text,
-                        taskDescription: taskDescriptionController.text,
-                        isHighPriority: isHighPriority,
-                       );
-
                     final pref = await SharedPreferences.getInstance();
 
                     final taskJson = pref.getString('tasks');
+
                     List<dynamic> listTasks = [];
+
                     if (taskJson != null) {
                       listTasks = jsonDecode(taskJson);
                     }
+
+                    TaskModel model = TaskModel(
+                      taskName: taskNameController.text,
+                      taskID: listTasks.length + 1,
+                      taskDescription: taskDescriptionController.text,
+                      isHighPriority: isHighPriority,
+                    );
+
                     listTasks.add(model.toJson());
                     final taskEncode = jsonEncode(listTasks);
                     await pref.setString('tasks', taskEncode);
-                    Navigator.pop(context,true);
+                    Navigator.pop(context, true);
                   }
                 },
                 title: 'Add Task',

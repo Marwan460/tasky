@@ -64,9 +64,17 @@ class _ToDoTasksState extends State<ToDoTasks> {
                     tasks[index!].isDone = value ?? false;
                   });
                   final pref = await SharedPreferences.getInstance();
-                  final updateTask = tasks.map((e) => e.toJson()).toList();
-                  pref.setString('tasks', jsonEncode(updateTask));
-                  loadTasks();
+                  final allData = pref.getString('tasks');
+                  if (allData != null) {
+                    List<TaskModel> allDataList = (jsonDecode(allData) as List)
+                        .map((e) => TaskModel.fromJson(e))
+                        .toList();
+                    final newIndex = allDataList.indexWhere((e) => e.taskID == tasks[index!].taskID);
+                    allDataList[newIndex] = tasks[index!];
+                    pref.setString('tasks', jsonEncode(allDataList));
+                    loadTasks();
+                  }
+
                 },
               ),
       ),
