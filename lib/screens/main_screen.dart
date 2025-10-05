@@ -75,7 +75,7 @@ class _MainScreenState extends State<MainScreen> {
               label: 'Profile'),
         ],
       ),
-      body: _screens[_currentIndex],
+      body: SafeArea(child: _screens[_currentIndex]),
     );
   }
 }
