@@ -36,6 +36,22 @@ class MyApp extends StatelessWidget {
           centerTitle: false,
           iconTheme: const IconThemeData(color: AppColors.white2),
         ),
+        switchTheme: SwitchThemeData(
+          trackColor: WidgetStateProperty.resolveWith((states) {
+            if(states.contains(WidgetState.selected)){
+              return AppColors.green;
+            }else{
+              return AppColors.white;
+            }
+          },),
+          thumbColor: WidgetStateProperty.resolveWith((states) {
+            if(states.contains(WidgetState.selected)){
+              return AppColors.white;
+            }else{
+              return AppColors.grey;
+            }
+          },),
+        ),
         useMaterial3: true,
       ),
       home: name == null ? const WelcomeScreen() : const MainScreen(),

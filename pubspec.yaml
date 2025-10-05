@@ -91,9 +91,12 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
   assets:
+    - assets/images/arrow_icon.svg
     - assets/images/avatar.svg
     - assets/images/complete.svg
+    - assets/images/dark_icon.svg
     - assets/images/home.svg
+    - assets/images/log_out_icon.svg
     - assets/images/logo.svg
     - assets/images/profile.svg
     - assets/images/to_do.svg

@@ -31,4 +31,10 @@ abstract class AppStyle {
     fontSize: 14,
     fontWeight: FontWeight.w500,
   );
+
+  static const TextStyle regular14 = TextStyle(
+    color: AppColors.grey2,
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+  );
 }

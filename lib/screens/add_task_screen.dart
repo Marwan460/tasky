@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tasky/core/utils/app_colors.dart';
 import 'package:tasky/core/utils/app_style.dart';
 import 'package:tasky/core/widgets/custom_button.dart';
 import 'package:tasky/core/widgets/custom_text_form_field.dart';

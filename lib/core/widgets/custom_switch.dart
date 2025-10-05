@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tasky/core/utils/app_colors.dart';
 
 class CustomSwitch extends StatelessWidget {
   final bool value;
@@ -12,7 +11,6 @@ class CustomSwitch extends StatelessWidget {
     return Switch(
       value: value,
       onChanged: onChanged,
-      activeTrackColor: AppColors.green,
     );
   }
 }
