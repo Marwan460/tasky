@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,6 +21,9 @@ class _HomeScreenState extends State<HomeScreen> {
   String? name;
   List<TaskModel> tasks = [];
   bool isLoading = false;
+  int totalTasks = 0;
+  int doneTasks = 0;
+  int percent = 0;
 
   @override
   void initState() {
@@ -44,13 +48,22 @@ class _HomeScreenState extends State<HomeScreen> {
     if (finalTask != null) {
       final taskAfterDecode = jsonDecode(finalTask) as List<dynamic>;
 
+
+
       setState(() {
         tasks = taskAfterDecode.map((e) => TaskModel.fromJson(e)).toList();
+        _calculatePercentage();
       });
     }
     setState(() {
       isLoading = false;
     });
+  }
+
+  _calculatePercentage() {
+    totalTasks = tasks.length;
+    doneTasks = tasks.where((e) => e.isDone).length;
+    percent = totalTasks == 0 ? 0 : (doneTasks / totalTasks * 100).toInt();
   }
 
   @override
@@ -108,6 +121,47 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               const SizedBox(height: 16),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: AppColors.secondary,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Achieved Tasks', style: AppStyle.regular16,),
+                        Text('$doneTasks Out of $totalTasks Done', style: AppStyle.regular14,)
+                      ],
+                    ),
+                    Spacer(),
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Transform.rotate(
+                          angle: -pi / 2,
+                          child: SizedBox(
+                            width: 48,
+                            height: 48,
+                            child: CircularProgressIndicator(
+                              value: percent / 100,
+                              valueColor: const AlwaysStoppedAnimation<Color>(AppColors.green),
+                              backgroundColor: AppColors.grey,
+                              color: AppColors.green,
+                              strokeWidth: 4,
+                            ),
+                          ),
+                        ),
+                        Text('$percent%', style: AppStyle.medium14,)
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
               Expanded(
                 child: isLoading
                     ? const Center(
@@ -120,12 +174,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: (bool? value, int? index) async {
                           setState(() {
                             tasks[index!].isDone = value ?? false;
+                            _calculatePercentage();
                           });
                           final pref = await SharedPreferences.getInstance();
                           final updateTask =
                               tasks.map((e) => e.toJson()).toList();
                           pref.setString('tasks', jsonEncode(updateTask));
-                          loadTasks();
                         },
                       ),
               ),
