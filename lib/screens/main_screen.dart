@@ -6,7 +6,7 @@ import 'package:tasky/screens/profile_screen.dart';
 import 'package:tasky/screens/to_do_tasks_screen.dart';
 
 import 'complete_task_screen.dart';
-import 'home_screen.dart';
+import 'home/home_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
