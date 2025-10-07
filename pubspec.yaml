@@ -92,6 +92,7 @@ flutter:
   # see https://flutter.dev/to/font-from-package
   assets:
     - assets/images/arrow_icon.svg
+    - assets/images/arrow_up_right.svg
     - assets/images/avatar.svg
     - assets/images/complete.svg
     - assets/images/dark_icon.svg

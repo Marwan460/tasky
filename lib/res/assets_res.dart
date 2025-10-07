@@ -9,6 +9,7 @@ class AssetsRes {
   static const String PROJECT_NAME = 'tasky';
   static const String PROJECT_VERSION = '1.0.0+1';
   static const String ARROW_ICON = 'assets/images/arrow_icon.svg';
+  static const String ARROW_UP_RIGHT = 'assets/images/arrow_up_right.svg';
   static const String AVATAR = 'assets/images/avatar.svg';
   static const String COMPLETE = 'assets/images/complete.svg';
   static const String DARK_ICON = 'assets/images/dark_icon.svg';

@@ -6,8 +6,10 @@ import 'package:tasky/core/utils/app_style.dart';
 import 'package:tasky/screens/home/widget/custom_floating_action_button.dart';
 import 'package:tasky/core/widgets/tasks_list.dart';
 import 'package:tasky/res/assets_res.dart';
+import 'package:tasky/screens/home/widget/high_priority_tasks_widget.dart';
 import 'package:tasky/screens/home/widget/home_app_bar.dart';
 import '../../core/utils/app_colors.dart';
+import '../high_priority_screen.dart';
 import 'widget/achieved_tasks_widget.dart';
 import '../../models/task_model.dart';
 
@@ -49,8 +51,6 @@ class _HomeScreenState extends State<HomeScreen> {
     if (finalTask != null) {
       final taskAfterDecode = jsonDecode(finalTask) as List<dynamic>;
 
-
-
       setState(() {
         tasks = taskAfterDecode.map((e) => TaskModel.fromJson(e)).toList();
         _calculatePercentage();
@@ -59,6 +59,16 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       isLoading = false;
     });
+  }
+
+  _doneTask(bool? value, int? index) async {
+    setState(() {
+      tasks[index!].isDone = value ?? false;
+      _calculatePercentage();
+    });
+    final pref = await SharedPreferences.getInstance();
+    final updateTask = tasks.map((e) => e.toJson()).toList();
+    pref.setString('tasks', jsonEncode(updateTask));
   }
 
   _calculatePercentage() {
@@ -76,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            HomeAppBar(name: name!),
+            HomeAppBar(name: name ?? ''),
             const SizedBox(height: 16),
             Text(
               'Yuhuu ,Your work Is ',
@@ -96,7 +106,29 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             const SizedBox(height: 16),
-            AchievedTasksWidget(doneTasks: doneTasks, totalTasks: totalTasks, percent: percent),
+            AchievedTasksWidget(
+                doneTasks: doneTasks, totalTasks: totalTasks, percent: percent),
+            const SizedBox(height: 8),
+            HighPriorityTasksWidget(
+              tasks: tasks,
+              onChanged: (bool? value, int? index) {
+                _doneTask(value, index);
+              },
+              onTap: () async{
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HighPriorityScreen(),
+                  ),
+                );
+                loadTasks();
+              },
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'My Tasks',
+              style: AppStyle.regular20,
+            ),
             const SizedBox(height: 16),
             Expanded(
               child: isLoading
@@ -107,15 +139,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     )
                   : TasksList(
                       tasks: tasks,
-                      onTap: (bool? value, int? index) async {
-                        setState(() {
-                          tasks[index!].isDone = value ?? false;
-                          _calculatePercentage();
-                        });
-                        final pref = await SharedPreferences.getInstance();
-                        final updateTask =
-                            tasks.map((e) => e.toJson()).toList();
-                        pref.setString('tasks', jsonEncode(updateTask));
+                      onTap: (bool? value, int? index) {
+                        _doneTask(value, index);
                       },
                     ),
             ),
@@ -125,4 +150,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-

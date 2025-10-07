@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tasky/core/utils/app_colors.dart';
 import 'package:tasky/core/utils/app_style.dart';
 
+import 'custom_checkbox.dart';
+
 class TaskContainer extends StatelessWidget {
   final bool? value;
   final void Function()? onPressed;
@@ -28,14 +30,7 @@ class TaskContainer extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Checkbox(
-              value: value,
-              onChanged: onChanged,
-              activeColor: AppColors.green,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
-              ),
-            ),
+            CustomCheckbox(value: value, onChanged: onChanged),
             const SizedBox(width: 8),
             Expanded(
               child: Column(
@@ -79,3 +74,4 @@ class TaskContainer extends StatelessWidget {
     );
   }
 }
+
