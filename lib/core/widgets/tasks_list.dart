@@ -20,6 +20,7 @@ class TasksList extends StatelessWidget {
             ),
           )
         : ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).size.height * 0.075),
             itemCount: tasks.length,
