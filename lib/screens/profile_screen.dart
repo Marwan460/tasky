@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky/core/utils/app_style.dart';
 import 'package:tasky/core/widgets/custom_list_tile.dart';
 import 'package:tasky/core/widgets/custom_switch.dart';
 import 'package:tasky/screens/user_details_screen.dart';
+import 'package:tasky/screens/welcome_screen.dart';
+import '../core/services/preferences_manager.dart';
 import '../core/widgets/custom_avatar.dart';
 import '../res/assets_res.dart';
 
@@ -27,9 +28,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   _loadData() async {
-    final prefs = await SharedPreferences.getInstance();
-    userName = prefs.getString('name') ?? '';
-    motivationQuote = prefs.getString('motivation_quote') ?? 'One task at a time. One step closer.';
+    userName = PreferencesManager().getString('name') ?? '';
+    motivationQuote = PreferencesManager().getString('motivation_quote') ??
+        'One task at a time. One step closer.';
     setState(() {});
     isLoading = false;
   }
@@ -74,7 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 CustomListTile(
                   leading: AssetsRes.PROFILE,
                   title: 'User Details',
-                  onTap: () async{
+                  onTap: () async {
                     final result = await Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -84,7 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                     );
-                    if(result != null){
+                    if (result != null) {
                       _loadData();
                     }
                   },
@@ -102,9 +103,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       }),
                 ),
                 const Divider(),
-                const CustomListTile(
+                CustomListTile(
+                  onTap: () async {
+                    PreferencesManager().remove('name');
+                    PreferencesManager().remove('motivation_quote');
+                    PreferencesManager().remove('tasks');
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (BuildContext context) {
+                        return const WelcomeScreen();
+                      }),
+                      (Route<dynamic> route) => false,
+                    );
+                  },
                   leading: AssetsRes.LOG_OUT_ICON,
-                  title: 'Log Out',
+                  title: 'Delete Account',
                 ),
               ],
             ),

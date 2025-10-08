@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky/core/widgets/tasks_list.dart';
 
+import '../core/services/preferences_manager.dart';
 import '../core/utils/app_colors.dart';
 import '../models/task_model.dart';
 
@@ -29,8 +29,7 @@ class _ToDoTasksState extends State<ToDoTasks> {
       isLoading = true;
     });
     await Future.delayed(const Duration(milliseconds: 500));
-    final prefs = await SharedPreferences.getInstance();
-    final finalTask = prefs.getString('tasks');
+    final finalTask = PreferencesManager().getString('tasks');
     if (finalTask != null) {
       final taskAfterDecode = jsonDecode(finalTask) as List<dynamic>;
 
@@ -63,15 +62,14 @@ class _ToDoTasksState extends State<ToDoTasks> {
                   setState(() {
                     tasks[index!].isDone = value ?? false;
                   });
-                  final pref = await SharedPreferences.getInstance();
-                  final allData = pref.getString('tasks');
+                  final allData = PreferencesManager().getString('tasks');
                   if (allData != null) {
                     List<TaskModel> allDataList = (jsonDecode(allData) as List)
                         .map((e) => TaskModel.fromJson(e))
                         .toList();
                     final newIndex = allDataList.indexWhere((e) => e.taskID == tasks[index!].taskID);
                     allDataList[newIndex] = tasks[index!];
-                    pref.setString('tasks', jsonEncode(allDataList));
+                    await PreferencesManager().setString('tasks', jsonEncode(allDataList));
                     loadTasks();
                   }
 

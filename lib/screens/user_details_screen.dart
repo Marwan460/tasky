@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky/core/utils/app_style.dart';
 import 'package:tasky/core/widgets/custom_button.dart';
 import 'package:tasky/core/widgets/custom_text_form_field.dart';
+
+import '../core/services/preferences_manager.dart';
 
 class UserDetailsScreen extends StatefulWidget {
   final String userName;
@@ -75,9 +76,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
               const Spacer(),
               CustomButton(onPressed: () async{
                 if(formKey.currentState!.validate()) {
-                  final prefs = await SharedPreferences.getInstance();
-                  await prefs.setString('name', userNameController.value.text);
-                  await prefs.setString('motivation_quote', motivationQuoteController.value.text);
+                  await PreferencesManager().setString('name', userNameController.value.text);
+                  await PreferencesManager().setString('motivation_quote', motivationQuoteController.value.text);
                   Navigator.pop(context, true);
                 }
               }, title: 'Save Changes'),

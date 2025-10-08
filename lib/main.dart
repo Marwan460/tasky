@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky/core/utils/app_style.dart';
 import 'package:tasky/screens/main_screen.dart';
 import 'package:tasky/screens/welcome_screen.dart';
 
+import 'core/services/preferences_manager.dart';
 import 'core/utils/app_colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final pref = await SharedPreferences.getInstance();
-  String? name = pref.getString('name');
+  await PreferencesManager().init();
+  String? name = PreferencesManager().getString('name');
+
   runApp(
     MyApp(
       name: name,

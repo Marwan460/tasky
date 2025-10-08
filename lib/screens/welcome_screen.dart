@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky/core/services/preferences_manager.dart';
 import 'package:tasky/core/widgets/custom_button.dart';
 import 'package:tasky/core/widgets/custom_text_form_field.dart';
 import 'package:tasky/res/assets_res.dart';
@@ -96,13 +96,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       CustomButton(
                         onPressed: () async {
                           if (_formKey.currentState?.validate() ?? false) {
-                            final prefs = await SharedPreferences.getInstance();
-                            await prefs.setString(
-                                'name', _controller.value.text);
+                            await PreferencesManager().setString('name', _controller.value.text);
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => const MainScreen(),
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Please Enter Your Name'),
                               ),
                             );
                           }
