@@ -99,7 +99,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             final prefs = await SharedPreferences.getInstance();
                             await prefs.setString(
                                 'name', _controller.value.text);
-                            String? name = prefs.getString('name');
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

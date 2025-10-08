@@ -29,12 +29,12 @@ class MyApp extends StatelessWidget {
       title: 'Tasky',
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.primary,
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           elevation: 0,
           color: AppColors.primary,
           titleTextStyle: AppStyle.regular20,
           centerTitle: false,
-          iconTheme: const IconThemeData(color: AppColors.white2),
+          iconTheme: IconThemeData(color: AppColors.white2),
         ),
         switchTheme: SwitchThemeData(
           trackColor: WidgetStateProperty.resolveWith((states) {
@@ -51,6 +51,12 @@ class MyApp extends StatelessWidget {
               return AppColors.grey;
             }
           },),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all(AppColors.green),
+            foregroundColor: WidgetStateProperty.all(AppColors.white2),
+          )
         ),
         useMaterial3: true,
       ),
