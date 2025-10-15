@@ -120,4 +120,19 @@ ThemeData darkTheme = ThemeData(
   ),
   focusColor: AppColors.white2,
   splashFactory: NoSplash.splashFactory,
+  popupMenuTheme: PopupMenuThemeData(
+    color: AppColors.primaryDark,
+    labelTextStyle: WidgetStateProperty.all(
+      const TextStyle(
+        color: AppColors.white2,
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+      ),
+    ),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(16),
+      side: const BorderSide(color: AppColors.green),
+    ),
+    elevation: 2,
+  ),
 );

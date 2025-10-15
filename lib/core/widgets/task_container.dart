@@ -51,20 +51,43 @@ class TaskContainer extends StatelessWidget {
                   SelectableText(
                     taskDescription,
                     style: value == false
-                        ? Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 14)
-                        : Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 14),
+                        ? Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(fontSize: 14)
+                        : Theme.of(context)
+                            .textTheme
+                            .titleMedium!
+                            .copyWith(fontSize: 14),
                   ),
                 ],
               ),
             ),
-            IconButton(
-              onPressed: onPressed,
+            PopupMenuButton(
               icon: Icon(
                 Icons.more_vert,
                 color: ThemeController.isDark()
-                    ? (value == true ? const Color(0xffA0A0A0) : AppColors.grey2)
-                    : (value == true ? const Color(0xff6A6A6A) : AppColors.black2),
+                    ? (value == true
+                        ? const Color(0xffA0A0A0)
+                        : AppColors.grey2)
+                    : (value == true
+                        ? const Color(0xff6A6A6A)
+                        : AppColors.black2),
               ),
+              itemBuilder: (context) {
+                return [
+                  PopupMenuItem(
+                    child: Text(
+                      'Edit',
+                    ),
+                  ),
+                  PopupMenuItem(
+                    child: Text(
+                      'Delete',
+                    ),
+                  ),
+                ];
+              },
             )
           ],
         ),

@@ -127,6 +127,20 @@ ThemeData lightTheme = ThemeData(
   ),
   focusColor: AppColors.black,
   splashFactory: NoSplash.splashFactory,
+  popupMenuTheme: PopupMenuThemeData(
+    color: AppColors.primaryLight,
+    labelTextStyle: WidgetStateProperty.all(
+      const TextStyle(
+        color: AppColors.black,
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+      ),
+    ),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(16),
+    ),
+  ),
+
 );
 
 
