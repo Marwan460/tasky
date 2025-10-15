@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasky/core/enums/task_item_actions_enum.dart';
 import 'package:tasky/core/theme/theme_controller.dart';
 import 'package:tasky/core/utils/app_colors.dart';
 
@@ -63,7 +64,7 @@ class TaskContainer extends StatelessWidget {
                 ],
               ),
             ),
-            PopupMenuButton(
+            PopupMenuButton<TaskItemActionsEnum>(
               icon: Icon(
                 Icons.more_vert,
                 color: ThemeController.isDark()
@@ -74,20 +75,18 @@ class TaskContainer extends StatelessWidget {
                         ? const Color(0xff6A6A6A)
                         : AppColors.black2),
               ),
-              itemBuilder: (context) {
-                return [
-                  PopupMenuItem(
-                    child: Text(
-                      'Edit',
-                    ),
-                  ),
-                  PopupMenuItem(
-                    child: Text(
-                      'Delete',
-                    ),
-                  ),
-                ];
+              onSelected: (value) {
+                switch (value){
+                  case TaskItemActionsEnum.edit:
+                  case TaskItemActionsEnum.delete:
+                }
               },
+              itemBuilder: (context) => TaskItemActionsEnum.values.map((e) {
+                return PopupMenuItem<TaskItemActionsEnum>(
+                  value: e,
+                  child: Text(e.name),
+                );
+              }).toList(),
             )
           ],
         ),
