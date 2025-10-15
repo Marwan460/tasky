@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../core/utils/app_style.dart';
 import '../../../res/assets_res.dart';
 
 class HomeAppBar extends StatelessWidget {
@@ -23,14 +22,11 @@ class HomeAppBar extends StatelessWidget {
           children: [
             Text(
               'Welcome, $name',
-              style: AppStyle.regular16,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
             Text(
               'One task at a time.One step closer.',
-              style: AppStyle.regular16.copyWith(
-                fontSize: 14,
-                color: const Color(0xffC6C6C6),
-              ),
+              style: Theme.of(context).textTheme.displaySmall,
             ),
           ],
         ),

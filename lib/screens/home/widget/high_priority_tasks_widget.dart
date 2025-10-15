@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tasky/core/widgets/custom_checkbox.dart';
 import 'package:tasky/res/assets_res.dart';
 
+import '../../../core/theme/theme_controller.dart';
 import '../../../core/utils/app_colors.dart';
-import '../../../core/utils/app_style.dart';
+import '../../../core/widgets/custom_svg_picture.dart';
 import '../../../models/task_model.dart';
 
 class HighPriorityTasksWidget extends StatelessWidget {
@@ -13,15 +13,23 @@ class HighPriorityTasksWidget extends StatelessWidget {
   final void Function() onTap;
 
   const HighPriorityTasksWidget(
-      {super.key, required this.tasks, required this.onChanged, required this.onTap});
+      {super.key,
+      required this.tasks,
+      required this.onChanged,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: AppColors.secondary,
+        color: Theme.of(context).colorScheme.primaryContainer,
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: ThemeController.isDark()
+              ? Colors.transparent
+              : const Color(0xffD1DAD6),
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -34,7 +42,10 @@ class HighPriorityTasksWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 child: Text(
                   'High Priority Tasks',
-                  style: AppStyle.regular14.copyWith(color: AppColors.green),
+                  style: Theme.of(context)
+                      .textTheme
+                      .displaySmall!
+                      .copyWith(color: AppColors.green),
                 ),
               ),
               ...tasks.where((e) => e.isHighPriority).take(4).map((e) {
@@ -51,7 +62,9 @@ class HighPriorityTasksWidget extends StatelessWidget {
                     const SizedBox(width: 8),
                     Text(
                       e.taskName,
-                      style: AppStyle.regular16,
+                      style: e.isDone
+                          ? Theme.of(context).textTheme.titleMedium
+                          : Theme.of(context).textTheme.bodyMedium,
                     ),
                   ],
                 );
@@ -67,11 +80,15 @@ class HighPriorityTasksWidget extends StatelessWidget {
                 width: 40,
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
-                  color: AppColors.secondary,
                   shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.grey),
+                  border: Border.all(
+                    color: ThemeController.isDark()
+                        ? const Color(0xff6E6E6E)
+                        : const Color(0xffD1DAD6),
+                  ),
                 ),
-                child: SvgPicture.asset(AssetsRes.ARROW_UP_RIGHT),
+                child:
+                    const CustomSvgPicture(assetName: AssetsRes.ARROW_UP_RIGHT),
               ),
             ),
           )

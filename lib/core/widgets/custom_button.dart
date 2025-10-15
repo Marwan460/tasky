@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tasky/core/utils/app_colors.dart';
-import 'package:tasky/core/utils/app_style.dart';
+
+import '../utils/app_colors.dart';
 
 class CustomButton extends StatelessWidget {
   final String title;
@@ -21,7 +21,7 @@ class CustomButton extends StatelessWidget {
       onPressed: onPressed,
       label: Text(
         title,
-        style: AppStyle.medium14,
+        style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.white),
       ),
       icon: icon ?? const SizedBox(),
     );

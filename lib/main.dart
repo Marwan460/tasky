@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:tasky/core/utils/app_style.dart';
+import 'package:tasky/core/theme/dark_theme.dart';
+import 'package:tasky/core/theme/theme_controller.dart';
 import 'package:tasky/screens/main_screen.dart';
 import 'package:tasky/screens/welcome_screen.dart';
 
 import 'core/services/preferences_manager.dart';
-import 'core/utils/app_colors.dart';
+import 'core/theme/light_theme.dart';
+
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await PreferencesManager().init();
+
+  ThemeController().init();
+
   String? name = PreferencesManager().getString('name');
 
   runApp(
@@ -25,43 +33,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Tasky',
-      theme: ThemeData(
-        scaffoldBackgroundColor: AppColors.primary,
-        appBarTheme: const AppBarTheme(
-          elevation: 0,
-          color: AppColors.primary,
-          titleTextStyle: AppStyle.regular20,
-          centerTitle: false,
-          iconTheme: IconThemeData(color: AppColors.white2),
-        ),
-        switchTheme: SwitchThemeData(
-          trackColor: WidgetStateProperty.resolveWith((states) {
-            if(states.contains(WidgetState.selected)){
-              return AppColors.green;
-            }else{
-              return AppColors.white;
-            }
-          },),
-          thumbColor: WidgetStateProperty.resolveWith((states) {
-            if(states.contains(WidgetState.selected)){
-              return AppColors.white;
-            }else{
-              return AppColors.grey;
-            }
-          },),
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.all(AppColors.green),
-            foregroundColor: WidgetStateProperty.all(AppColors.white2),
-          )
-        ),
-        useMaterial3: true,
-      ),
-      home: name == null ? const WelcomeScreen() : const MainScreen(),
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: ThemeController.themeNotifier,
+      builder: (context, ThemeMode value, Widget? child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Tasky',
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          themeMode: value,
+          home: name == null ? const WelcomeScreen() : const MainScreen(),
+        );
+      },
     );
   }
 }

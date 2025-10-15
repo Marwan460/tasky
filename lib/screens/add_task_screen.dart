@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:tasky/core/utils/app_style.dart';
 import 'package:tasky/core/widgets/custom_button.dart';
 import 'package:tasky/core/widgets/custom_text_form_field.dart';
 import 'package:tasky/models/task_model.dart';
@@ -38,9 +37,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+               Text(
                 'Task Name',
-                style: AppStyle.regular16,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(height: 8),
               CustomTextFormField(
@@ -55,9 +54,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 },
               ),
               const SizedBox(height: 20),
-              const Text(
+               Text(
                 'Task Description',
-                style: AppStyle.regular16,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(height: 8),
               CustomTextFormField(
@@ -73,7 +72,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 children: [
                   Text(
                     'High Priority',
-                    style: AppStyle.regular16.copyWith(fontSize: 16),
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   CustomSwitch(
                     value: isHighPriority,

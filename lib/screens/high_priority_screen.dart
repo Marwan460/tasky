@@ -56,7 +56,7 @@ class _HighPriorityScreenState extends State<HighPriorityScreen> {
         child: isLoading
             ? const Center(
           child: CircularProgressIndicator(
-            color: AppColors.white,
+            color: AppColors.green,
           ),
         )
             : TasksList(
@@ -65,7 +65,7 @@ class _HighPriorityScreenState extends State<HighPriorityScreen> {
             setState(() {
               highPriorityTasks[index!].isDone = value ?? false;
             });
-            final allData = PreferencesManager().getString('tasks');;
+            final allData = PreferencesManager().getString('tasks');
             if (allData != null) {
               List<TaskModel> allDataList = (jsonDecode(allData) as List)
                   .map((e) => TaskModel.fromJson(e))

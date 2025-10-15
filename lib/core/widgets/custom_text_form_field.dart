@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tasky/core/utils/app_colors.dart';
-import 'package:tasky/core/utils/app_style.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final void Function(String) onChanged;
@@ -17,18 +16,16 @@ class CustomTextFormField extends StatelessWidget {
       maxLines: maxLines,
       validator: validator,
       controller: controller,
-      style: AppStyle.regular16,
+      style: Theme.of(context).textTheme.bodyMedium,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: AppStyle.regular16.copyWith(color: AppColors.grey),
+        hintStyle: Theme.of(context).inputDecorationTheme.hintStyle,
         filled: true,
-        fillColor: const Color(0xff282828),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide.none
-        ),
+        fillColor: Theme.of(context).inputDecorationTheme.fillColor,
+        border: Theme.of(context).inputDecorationTheme.border,
+        enabledBorder: Theme.of(context).inputDecorationTheme.enabledBorder,
+        focusedBorder: Theme.of(context).inputDecorationTheme.focusedBorder,
       ),
-      cursorColor: AppColors.white,
     );
   }
 }

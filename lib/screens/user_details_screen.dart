@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tasky/core/utils/app_style.dart';
 import 'package:tasky/core/widgets/custom_button.dart';
 import 'package:tasky/core/widgets/custom_text_form_field.dart';
 
@@ -39,9 +38,9 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+               Text(
                 'User Name',
-                style: AppStyle.regular16,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(height: 8),
               CustomTextFormField(
@@ -56,9 +55,9 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                 }
               ),
               const SizedBox(height: 20),
-              const Text(
+               Text(
                 'Motivation Quote',
-                style: AppStyle.regular16,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(height: 8),
               CustomTextFormField(

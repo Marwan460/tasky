@@ -53,7 +53,7 @@ class _CompleteTaskScreenState extends State<CompleteTaskScreen> {
         child: isLoading
             ? const Center(
                 child: CircularProgressIndicator(
-                  color: AppColors.white2,
+                  color: AppColors.green,
                 ),
               )
             : TasksList(

@@ -18,9 +18,8 @@ class CustomCheckbox extends StatelessWidget {
       value: value,
       onChanged: onChanged,
       activeColor: AppColors.green,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
-      ),
+      shape: Theme.of(context).checkboxTheme.shape,
+      side: Theme.of(context).checkboxTheme.side,
     );
   }
 }

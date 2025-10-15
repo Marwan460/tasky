@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:tasky/core/theme/theme_controller.dart';
 
 import '../../res/assets_res.dart';
 import '../utils/app_colors.dart';
@@ -31,11 +32,14 @@ class CustomAvatar extends StatelessWidget {
             alignment: Alignment.center,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
-              color: const Color(0xff282828),
+              color: ThemeController.isDark() ? const Color(0xff282828) : AppColors.white2,
+              border: Border.all(
+                color: ThemeController.isDark() ? Colors.transparent : const Color(0xffD1DAD6),
+              )
             ),
-            child: const Icon(
-              Icons.camera_alt,
-              color: AppColors.white,
+            child:  Icon(
+              Icons.camera_alt_outlined,
+              color: Theme.of(context).iconTheme.color,
               size: 26,
             ),
           ),

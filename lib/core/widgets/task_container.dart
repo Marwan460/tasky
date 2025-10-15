@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tasky/core/theme/theme_controller.dart';
 import 'package:tasky/core/utils/app_colors.dart';
-import 'package:tasky/core/utils/app_style.dart';
 
 import 'custom_checkbox.dart';
 
@@ -25,8 +25,13 @@ class TaskContainer extends StatelessWidget {
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: AppColors.secondary,
+          color: Theme.of(context).colorScheme.primaryContainer,
           borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: ThemeController.isDark()
+                ? Colors.transparent
+                : const Color(0xffD1DAD6),
+          ),
         ),
         child: Row(
           children: [
@@ -39,24 +44,15 @@ class TaskContainer extends StatelessWidget {
                 children: [
                   SelectableText(
                     taskName,
-                    style: AppStyle.regular16.copyWith(
-                      color: value == true ? AppColors.grey2 : AppColors.white,
-                      decoration:
-                          value == true ? TextDecoration.lineThrough : null,
-                      decorationColor: AppColors.grey2,
-                      decorationThickness: 1.5,
-                    ),
+                    style: value == false
+                        ? Theme.of(context).textTheme.bodyMedium
+                        : Theme.of(context).textTheme.titleMedium,
                   ),
                   SelectableText(
                     taskDescription,
-                    style: AppStyle.regular16.copyWith(
-                      color: AppColors.grey2,
-                      fontSize: 14,
-                      decoration:
-                          value == true ? TextDecoration.lineThrough : null,
-                      decorationColor: AppColors.grey2,
-                      decorationThickness: 1.5,
-                    ),
+                    style: value == false
+                        ? Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 14)
+                        : Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 14),
                   ),
                 ],
               ),
@@ -65,7 +61,9 @@ class TaskContainer extends StatelessWidget {
               onPressed: onPressed,
               icon: Icon(
                 Icons.more_vert,
-                color: value == true ? AppColors.grey2 : AppColors.white,
+                color: ThemeController.isDark()
+                    ? (value == true ? const Color(0xffA0A0A0) : AppColors.grey2)
+                    : (value == true ? const Color(0xff6A6A6A) : AppColors.black2),
               ),
             )
           ],
@@ -74,4 +72,3 @@ class TaskContainer extends StatelessWidget {
     );
   }
 }
-

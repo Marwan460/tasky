@@ -53,7 +53,7 @@ class _ToDoTasksState extends State<ToDoTasks> {
         child: isLoading
             ? const Center(
                 child: CircularProgressIndicator(
-                  color: AppColors.white,
+                  color: AppColors.green,
                 ),
               )
             : TasksList(

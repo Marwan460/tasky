@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tasky/core/services/preferences_manager.dart';
 import 'package:tasky/core/widgets/custom_button.dart';
+import 'package:tasky/core/widgets/custom_svg_picture.dart';
 import 'package:tasky/core/widgets/custom_text_form_field.dart';
 import 'package:tasky/res/assets_res.dart';
 import 'package:tasky/screens/main_screen.dart';
-import '../core/utils/app_style.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -31,15 +30,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SvgPicture.asset(
-                      AssetsRes.LOGO,
-                      width: 42,
-                      height: 42,
-                    ),
+                  const CustomSvgPicture.withColorFilter(assetName: AssetsRes.LOGO),
                     const SizedBox(width: 8),
-                    const Text(
+                    Text(
                       'Tasky',
-                      style: AppStyle.regular28,
+                      style: Theme.of(context).textTheme.displayLarge,
                     ),
                   ],
                 ),
@@ -47,38 +42,30 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
+                     Text(
                       'Welcome To Tasky',
-                      style: AppStyle.regular24,
+                      style: Theme.of(context).textTheme.displayMedium,
                     ),
                     const SizedBox(width: 8),
-                    SvgPicture.asset(
-                      AssetsRes.WAVING_HAND,
-                      width: 28,
-                      height: 28,
-                    ),
+                    const CustomSvgPicture.withColorFilter(assetName: AssetsRes.WAVING_HAND),
                   ],
                 ),
                 const SizedBox(height: 8),
-                const Text(
+                 Text(
                   'Your productivity journey starts here.',
-                  style: AppStyle.regular16,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 const SizedBox(height: 24),
-                SvgPicture.asset(
-                  AssetsRes.WELCOME,
-                  width: 214,
-                  height: 204,
-                ),
+                const CustomSvgPicture.withColorFilter(assetName: AssetsRes.WELCOME),
                 const SizedBox(height: 28),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                       Text(
                         'Full Name',
-                        style: AppStyle.regular16,
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       const SizedBox(height: 8),
                       CustomTextFormField(

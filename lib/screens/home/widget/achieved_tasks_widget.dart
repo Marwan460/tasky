@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:tasky/core/theme/theme_controller.dart';
 
 import '../../../core/utils/app_colors.dart';
-import '../../../core/utils/app_style.dart';
 
 class AchievedTasksWidget extends StatelessWidget {
   const AchievedTasksWidget({
@@ -23,16 +23,25 @@ class AchievedTasksWidget extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.secondary,
+        color: Theme.of(context).colorScheme.primaryContainer,
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: ThemeController.isDark() ? Colors.transparent : const Color(0xffD1DAD6),
+        ),
       ),
       child: Row(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Achieved Tasks', style: AppStyle.regular16,),
-              Text('$doneTasks Out of $totalTasks Done', style: AppStyle.regular14,)
+              Text(
+                'Achieved Tasks',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              Text(
+                '$doneTasks Out of $totalTasks Done',
+                style: Theme.of(context).textTheme.displaySmall,
+              )
             ],
           ),
           const Spacer(),
@@ -46,14 +55,18 @@ class AchievedTasksWidget extends StatelessWidget {
                   height: 48,
                   child: CircularProgressIndicator(
                     value: percent / 100,
-                    valueColor: const AlwaysStoppedAnimation<Color>(AppColors.green),
-                    backgroundColor: AppColors.grey,
+                    valueColor:
+                        const AlwaysStoppedAnimation<Color>(AppColors.green),
+                    backgroundColor: AppColors.secondaryLight,
                     color: AppColors.green,
                     strokeWidth: 4,
                   ),
                 ),
               ),
-              Text('$percent%', style: AppStyle.medium14,)
+              Text(
+                '$percent%',
+                style: Theme.of(context).textTheme.bodySmall,
+              )
             ],
           )
         ],

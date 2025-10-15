@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tasky/core/utils/app_style.dart';
 import 'package:tasky/core/widgets/custom_list_tile.dart';
 import 'package:tasky/core/widgets/custom_switch.dart';
 import 'package:tasky/screens/user_details_screen.dart';
 import 'package:tasky/screens/welcome_screen.dart';
 import '../core/services/preferences_manager.dart';
+import '../core/theme/theme_controller.dart';
+import '../core/utils/app_colors.dart';
 import '../core/widgets/custom_avatar.dart';
 import '../res/assets_res.dart';
 
@@ -19,7 +20,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late String userName;
   String? motivationQuote;
   bool isLoading = true;
-  bool isDarkMode = true;
 
   @override
   void initState() {
@@ -39,16 +39,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return isLoading
         ? const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: AppColors.green,
+            ),
           )
         : Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'My Profile',
-                  style: AppStyle.regular20,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 Center(
                   child: Column(
@@ -57,19 +59,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       const SizedBox(height: 6),
                       Text(
                         userName,
-                        style: AppStyle.regular20,
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       Text(
                         motivationQuote!,
-                        style: AppStyle.regular14,
+                        style: Theme.of(context).textTheme.displaySmall,
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 24),
-                const Text(
+                Text(
                   'Profile Info',
-                  style: AppStyle.regular20,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 const SizedBox(height: 16),
                 CustomListTile(
@@ -94,13 +96,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 CustomListTile(
                   leading: AssetsRes.DARK_ICON,
                   title: 'Dark Mode',
-                  trailing: CustomSwitch(
-                      value: isDarkMode,
-                      onChanged: (value) {
-                        setState(() {
-                          isDarkMode = value;
-                        });
-                      }),
+                  trailing: ValueListenableBuilder(
+                    valueListenable: ThemeController.themeNotifier,
+                    builder: (context, value, child) {
+                      return CustomSwitch(
+                        value: ThemeController.themeNotifier.value ==
+                            ThemeMode.dark,
+                        onChanged: (value) {
+                          ThemeController.toggleTheme();
+                        },
+                      );
+                    },
+                  ),
                 ),
                 const Divider(),
                 CustomListTile(

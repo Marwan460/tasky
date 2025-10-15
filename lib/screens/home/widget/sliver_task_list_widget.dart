@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../../../core/utils/app_style.dart';
 import '../../../core/widgets/task_container.dart';
 import '../../../models/task_model.dart';
 
@@ -14,11 +12,11 @@ class SliverTaskListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return tasks.isEmpty
-        ? const SliverToBoxAdapter(
+        ?  SliverToBoxAdapter(
           child: Center(
               child: Text(
                 'No Tasks Yet',
-                style: AppStyle.regular24,
+                style: Theme.of(context).textTheme.displayMedium,
               ),
             ),
         )

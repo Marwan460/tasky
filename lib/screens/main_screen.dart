@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:tasky/core/theme/theme_controller.dart';
 import 'package:tasky/core/utils/app_colors.dart';
 import 'package:tasky/res/assets_res.dart';
 import 'package:tasky/screens/profile_screen.dart';
@@ -28,54 +29,46 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: AppColors.primary,
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {
             _currentIndex = index;
           });
         },
-        selectedItemColor: AppColors.green,
-        type: BottomNavigationBarType.fixed,
-        unselectedItemColor: AppColors.white,
         items: [
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              AssetsRes.HOME,
-              colorFilter: ColorFilter.mode(
-                  _currentIndex == 0 ? AppColors.green : AppColors.white,
-                  BlendMode.srcIn),
-            ),
+            icon: _buildSvgPicture(AssetsRes.HOME, 0),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              AssetsRes.TO_DO,
-              colorFilter: ColorFilter.mode(
-                  _currentIndex == 1 ? AppColors.green : AppColors.white,
-                  BlendMode.srcIn),
-            ),
+            icon: _buildSvgPicture(AssetsRes.TO_DO, 1),
             label: 'To DO',
           ),
           BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                AssetsRes.COMPLETE,
-                colorFilter: ColorFilter.mode(
-                    _currentIndex == 2 ? AppColors.green : AppColors.white,
-                    BlendMode.srcIn),
-              ),
-              label: 'Completed'),
+            icon: _buildSvgPicture(AssetsRes.COMPLETE, 2),
+            label: 'Completed',
+          ),
           BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                AssetsRes.PROFILE,
-                colorFilter: ColorFilter.mode(
-                    _currentIndex == 3 ? AppColors.green : AppColors.white,
-                    BlendMode.srcIn),
-              ),
-              label: 'Profile'),
+            icon: _buildSvgPicture(AssetsRes.PROFILE, 3),
+            label: 'Profile',
+          ),
         ],
       ),
       body: SafeArea(child: _screens[_currentIndex]),
+    );
+  }
+
+  SvgPicture _buildSvgPicture(String path, int index) {
+    return SvgPicture.asset(
+      path,
+      colorFilter: ColorFilter.mode(
+        _currentIndex == index
+            ? AppColors.green
+            : ThemeController.isDark()
+                ? AppColors.grey2
+                : AppColors.black2,
+        BlendMode.srcIn,
+      ),
     );
   }
 }

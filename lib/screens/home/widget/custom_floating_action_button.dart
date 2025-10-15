@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../add_task_screen.dart';
 import '../../../core/utils/app_colors.dart';
-import '../../../core/utils/app_style.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {
   final Function loadTasks;
@@ -26,9 +25,18 @@ class CustomFloatingActionButton extends StatelessWidget {
           }
         },
         backgroundColor: AppColors.green,
-        foregroundColor: AppColors.white2,
-        label: const Text('Add New Task', style: AppStyle.medium14),
+        foregroundColor: AppColors.white,
+        label: Text(
+          'Add New Task',
+          style: Theme.of(context)
+              .textTheme
+              .bodySmall!
+              .copyWith(color: AppColors.white),
+        ),
         icon: const Icon(Icons.add, size: 18),
+        shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(100),
+      ),
       ),
     );
   }
