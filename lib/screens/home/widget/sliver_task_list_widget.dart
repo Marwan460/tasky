@@ -5,9 +5,10 @@ import '../../../models/task_model.dart';
 class SliverTaskListWidget extends StatelessWidget {
   final List<TaskModel> tasks;
   final Function(bool?, int?) onTap;
+  final void Function(int) onDelete;
 
   const SliverTaskListWidget(
-      {super.key, required this.tasks, required this.onTap});
+      {super.key, required this.tasks, required this.onTap, required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +27,13 @@ class SliverTaskListWidget extends StatelessWidget {
               itemCount: tasks.length,
               itemBuilder: (context, index) {
                 return TaskContainer(
-                  taskName: tasks[index].taskName,
-                  taskDescription: tasks[index].taskDescription,
+                  model: tasks[index],
                   value: tasks[index].isDone,
                   onChanged: (bool? value) {
                     onTap(value, index);
+                  },
+                  onDelete: (int id) {
+                    onDelete(id);
                   },
                 );
               },

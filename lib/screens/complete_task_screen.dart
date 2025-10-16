@@ -42,6 +42,15 @@ class _CompleteTaskScreenState extends State<CompleteTaskScreen> {
     });
   }
 
+  _deleteTask(int id) {
+    setState(() {
+      tasks.removeWhere((e) => e.taskID == id);
+    });
+    final updateTask = tasks.map((e) => e.toJson()).toList();
+    PreferencesManager().setString('tasks', jsonEncode(updateTask));
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +81,9 @@ class _CompleteTaskScreenState extends State<CompleteTaskScreen> {
                     await PreferencesManager().setString('tasks', jsonEncode(allDataList));
                     loadTasks();
                   }
-                }
+                }, onDelete: (int id) {
+                  _deleteTask(id);
+        },
               ),
       ),
     );

@@ -42,6 +42,15 @@ class _ToDoTasksState extends State<ToDoTasks> {
     });
   }
 
+  _deleteTask(int id) {
+    setState(() {
+      tasks.removeWhere((e) => e.taskID == id);
+    });
+    final updateTask = tasks.map((e) => e.toJson()).toList();
+    PreferencesManager().setString('tasks', jsonEncode(updateTask));
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +82,9 @@ class _ToDoTasksState extends State<ToDoTasks> {
                     loadTasks();
                   }
 
-                },
+                }, onDelete: (int id) {
+                  _deleteTask(id);
+        },
               ),
       ),
     );

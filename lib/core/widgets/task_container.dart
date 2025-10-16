@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:tasky/core/enums/task_item_actions_enum.dart';
 import 'package:tasky/core/theme/theme_controller.dart';
 import 'package:tasky/core/utils/app_colors.dart';
+import 'package:tasky/models/task_model.dart';
 
 import 'custom_checkbox.dart';
 
 class TaskContainer extends StatelessWidget {
   final bool? value;
+  final TaskModel model;
   final void Function()? onPressed;
   final void Function(bool?)? onChanged;
-  final String taskName, taskDescription;
+  final void Function(int) onDelete;
 
   const TaskContainer(
       {super.key,
       this.value,
       this.onChanged,
-      required this.taskName,
-      required this.taskDescription,
-      this.onPressed});
+      this.onPressed, required this.onDelete, required this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +44,13 @@ class TaskContainer extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SelectableText(
-                    taskName,
+                    model.taskName,
                     style: value == false
                         ? Theme.of(context).textTheme.bodyMedium
                         : Theme.of(context).textTheme.titleMedium,
                   ),
                   SelectableText(
-                    taskDescription,
+                    model.taskDescription,
                     style: value == false
                         ? Theme.of(context)
                             .textTheme
@@ -79,6 +79,7 @@ class TaskContainer extends StatelessWidget {
                 switch (value){
                   case TaskItemActionsEnum.edit:
                   case TaskItemActionsEnum.delete:
+                    onDelete(model.taskID);
                 }
               },
               itemBuilder: (context) => TaskItemActionsEnum.values.map((e) {

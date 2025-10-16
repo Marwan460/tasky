@@ -67,6 +67,15 @@ class _HomeScreenState extends State<HomeScreen> {
     await PreferencesManager().setString('tasks', jsonEncode(updateTask));
   }
 
+  _deleteTask(int id) {
+    setState(() {
+      tasks.removeWhere((e) => e.taskID == id);
+      _calculatePercentage();
+    });
+    final updateTask = tasks.map((e) => e.toJson()).toList();
+    PreferencesManager().setString('tasks', jsonEncode(updateTask));
+  }
+
   _calculatePercentage() {
     totalTasks = tasks.length;
     doneTasks = tasks.where((e) => e.isDone).length;
@@ -152,6 +161,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       tasks: tasks,
                       onTap: (bool? value, int? index) {
                         _doneTask(value, index);
+                      },
+                      onDelete: (int id) {
+                        _deleteTask(id);
                       },
                     )
             ],

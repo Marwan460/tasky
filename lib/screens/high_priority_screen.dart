@@ -45,6 +45,22 @@ class _HighPriorityScreenState extends State<HighPriorityScreen> {
     });
   }
 
+  _deleteTask(int id) {
+    List<TaskModel> tasks = [];
+    final finalTask = PreferencesManager().getString('tasks');
+    if (finalTask != null) {
+      final taskAfterDecode = jsonDecode(finalTask) as List<dynamic>;
+      tasks = taskAfterDecode.map((e) => TaskModel.fromJson(e)).toList();
+      tasks.removeWhere((e) => e.taskID == id);
+    }
+    setState(() {
+      highPriorityTasks.removeWhere((e) => e.taskID == id);
+    });
+    final updateTask = tasks.map((e) => e.toJson()).toList();
+    PreferencesManager().setString('tasks', jsonEncode(updateTask));
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +90,9 @@ class _HighPriorityScreenState extends State<HighPriorityScreen> {
               allDataList[newIndex] = highPriorityTasks[index!];
               await PreferencesManager().setString('tasks', jsonEncode(allDataList));
             }
-          },
+          }, onDelete: (int id) {
+            _deleteTask(id);
+        },
         ),
       ),
     );

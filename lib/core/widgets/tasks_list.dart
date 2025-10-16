@@ -6,8 +6,9 @@ import '../../models/task_model.dart';
 class TasksList extends StatelessWidget {
   final List<TaskModel> tasks;
   final Function(bool?, int?) onTap;
+  final Function(int) onDelete;
 
-  const TasksList({super.key, required this.tasks, required this.onTap});
+  const TasksList({super.key, required this.tasks, required this.onTap, required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +26,13 @@ class TasksList extends StatelessWidget {
             itemCount: tasks.length,
             itemBuilder: (context, index) {
               return TaskContainer(
-                taskName: tasks[index].taskName,
-                taskDescription: tasks[index].taskDescription,
                 value: tasks[index].isDone,
                 onChanged: (bool? value) {
                   onTap(value, index);
                 },
+                onDelete: (int id){
+                  onDelete(id);
+                }, model: tasks[index],
               );
             },
           );
