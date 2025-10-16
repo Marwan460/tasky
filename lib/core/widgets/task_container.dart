@@ -17,7 +17,9 @@ class TaskContainer extends StatelessWidget {
       {super.key,
       this.value,
       this.onChanged,
-      this.onPressed, required this.onDelete, required this.model});
+      this.onPressed,
+      required this.onDelete,
+      required this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -76,10 +78,10 @@ class TaskContainer extends StatelessWidget {
                         : AppColors.black2),
               ),
               onSelected: (value) {
-                switch (value){
-                  case TaskItemActionsEnum.edit:
+                switch (value) {
                   case TaskItemActionsEnum.delete:
-                    onDelete(model.taskID);
+                    _showAlertDialog(context);
+                  case TaskItemActionsEnum.edit:
                 }
               },
               itemBuilder: (context) => TaskItemActionsEnum.values.map((e) {
@@ -93,5 +95,34 @@ class TaskContainer extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _showAlertDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              title: const Text('Delete Task'),
+              content: const Text(
+                  'Are you sure you want to delete this task?'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    onDelete(model.taskID);
+                    Navigator.pop(context);
+                  },
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.red,
+                  ),
+                  child: const Text('Delete'),
+                ),
+              ]);
+        });
   }
 }

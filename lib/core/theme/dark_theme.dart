@@ -52,6 +52,16 @@ ThemeData darkTheme = ThemeData(
     foregroundColor: WidgetStateProperty.all(AppColors.white2),
     iconColor: WidgetStateProperty.all(AppColors.white2),
   )),
+  textButtonTheme: TextButtonThemeData(
+    style: ButtonStyle(
+      foregroundColor: WidgetStateProperty.all(AppColors.white2),
+      textStyle: WidgetStateProperty.all(TextStyle(
+        color: AppColors.white2,
+        fontSize: 20,
+        fontWeight: FontWeight.w400,
+      ),),
+    ),
+  ),
   textTheme: const TextTheme(
     displayLarge: TextStyle(
       color: AppColors.white,

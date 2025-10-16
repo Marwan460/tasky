@@ -111,7 +111,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 const Divider(),
                 CustomListTile(
-                  onTap: () async {
+                  onTap: () {
+                    _showAlertDialog();
+                  },
+                  leading: AssetsRes.LOG_OUT_ICON,
+                  title: 'Delete Account',
+                ),
+              ],
+            ),
+          );
+  }
+
+
+  _showAlertDialog() {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              title: const Text('Delete Account'),
+              content:
+                  const Text('Are you sure you want to delete this account?'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () {
                     PreferencesManager().remove('name');
                     PreferencesManager().remove('motivation_quote');
                     PreferencesManager().remove('tasks');
@@ -123,11 +151,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       (Route<dynamic> route) => false,
                     );
                   },
-                  leading: AssetsRes.LOG_OUT_ICON,
-                  title: 'Delete Account',
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.red,
+                  ),
+                  child: const Text('Delete'),
                 ),
-              ],
-            ),
-          );
+              ]);
+        });
   }
 }
