@@ -62,6 +62,12 @@ ThemeData darkTheme = ThemeData(
       ),),
     ),
   ),
+  bottomSheetTheme: const BottomSheetThemeData(
+    backgroundColor: AppColors.primaryDark,
+  ),
+  dialogTheme: const DialogTheme(
+    backgroundColor: AppColors.primaryDark,
+  ),
   textTheme: const TextTheme(
     displayLarge: TextStyle(
       color: AppColors.white,

@@ -34,7 +34,10 @@ class _ToDoTasksState extends State<ToDoTasks> {
       final taskAfterDecode = jsonDecode(finalTask) as List<dynamic>;
 
       setState(() {
-        tasks = taskAfterDecode.map((e) => TaskModel.fromJson(e)).where((e) => e.isDone == false).toList();
+        tasks = taskAfterDecode
+            .map((e) => TaskModel.fromJson(e))
+            .where((e) => e.isDone == false)
+            .toList();
       });
     }
     setState(() {
@@ -49,7 +52,6 @@ class _ToDoTasksState extends State<ToDoTasks> {
     final updateTask = tasks.map((e) => e.toJson()).toList();
     PreferencesManager().setString('tasks', jsonEncode(updateTask));
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -76,15 +78,20 @@ class _ToDoTasksState extends State<ToDoTasks> {
                     List<TaskModel> allDataList = (jsonDecode(allData) as List)
                         .map((e) => TaskModel.fromJson(e))
                         .toList();
-                    final newIndex = allDataList.indexWhere((e) => e.taskID == tasks[index!].taskID);
+                    final newIndex = allDataList
+                        .indexWhere((e) => e.taskID == tasks[index!].taskID);
                     allDataList[newIndex] = tasks[index!];
-                    await PreferencesManager().setString('tasks', jsonEncode(allDataList));
+                    await PreferencesManager()
+                        .setString('tasks', jsonEncode(allDataList));
                     loadTasks();
                   }
-
-                }, onDelete: (int id) {
+                },
+                onDelete: (int id) {
                   _deleteTask(id);
-        },
+                },
+                onEdit: () {
+                  loadTasks();
+                },
               ),
       ),
     );

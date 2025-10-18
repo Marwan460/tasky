@@ -56,12 +56,19 @@ ThemeData lightTheme = ThemeData(
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
       foregroundColor: WidgetStateProperty.all(AppColors.black),
-      textStyle: WidgetStateProperty.all(TextStyle(
+      textStyle: WidgetStateProperty.all(
+        const TextStyle(
         color: AppColors.black,
         fontSize: 20,
         fontWeight: FontWeight.w400,
       ),),
     ),
+  ),
+  bottomSheetTheme: const BottomSheetThemeData(
+    backgroundColor: AppColors.primaryLight,
+  ),
+  dialogTheme: const DialogTheme(
+    backgroundColor: AppColors.primaryLight,
   ),
   textTheme: const TextTheme(
     displayLarge: TextStyle(

@@ -34,7 +34,10 @@ class _CompleteTaskScreenState extends State<CompleteTaskScreen> {
       final taskAfterDecode = jsonDecode(finalTask) as List<dynamic>;
 
       setState(() {
-        tasks = taskAfterDecode.map((e) => TaskModel.fromJson(e)).where((e) => e.isDone == true).toList();
+        tasks = taskAfterDecode
+            .map((e) => TaskModel.fromJson(e))
+            .where((e) => e.isDone == true)
+            .toList();
       });
     }
     setState(() {
@@ -49,7 +52,6 @@ class _CompleteTaskScreenState extends State<CompleteTaskScreen> {
     final updateTask = tasks.map((e) => e.toJson()).toList();
     PreferencesManager().setString('tasks', jsonEncode(updateTask));
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -76,14 +78,20 @@ class _CompleteTaskScreenState extends State<CompleteTaskScreen> {
                     List<TaskModel> allDataList = (jsonDecode(allData) as List)
                         .map((e) => TaskModel.fromJson(e))
                         .toList();
-                    final newIndex = allDataList.indexWhere((e) => e.taskID == tasks[index!].taskID);
+                    final newIndex = allDataList
+                        .indexWhere((e) => e.taskID == tasks[index!].taskID);
                     allDataList[newIndex] = tasks[index!];
-                    await PreferencesManager().setString('tasks', jsonEncode(allDataList));
+                    await PreferencesManager()
+                        .setString('tasks', jsonEncode(allDataList));
                     loadTasks();
                   }
-                }, onDelete: (int id) {
+                },
+                onDelete: (int id) {
                   _deleteTask(id);
-        },
+                },
+                onEdit: () {
+                  loadTasks();
+                },
               ),
       ),
     );

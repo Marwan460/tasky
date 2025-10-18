@@ -7,8 +7,9 @@ class TasksList extends StatelessWidget {
   final List<TaskModel> tasks;
   final Function(bool?, int?) onTap;
   final Function(int) onDelete;
+  final Function() onEdit;
 
-  const TasksList({super.key, required this.tasks, required this.onTap, required this.onDelete});
+  const TasksList({super.key, required this.tasks, required this.onTap, required this.onDelete, required this.onEdit});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class TasksList extends StatelessWidget {
                 },
                 onDelete: (int id){
                   onDelete(id);
-                }, model: tasks[index],
+                }, model: tasks[index], onEdit: () => onEdit(),
               );
             },
           );

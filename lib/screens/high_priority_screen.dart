@@ -60,7 +60,6 @@ class _HighPriorityScreenState extends State<HighPriorityScreen> {
     PreferencesManager().setString('tasks', jsonEncode(updateTask));
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,29 +70,35 @@ class _HighPriorityScreenState extends State<HighPriorityScreen> {
         padding: const EdgeInsets.all(16),
         child: isLoading
             ? const Center(
-          child: CircularProgressIndicator(
-            color: AppColors.green,
-          ),
-        )
+                child: CircularProgressIndicator(
+                  color: AppColors.green,
+                ),
+              )
             : TasksList(
-          tasks: highPriorityTasks,
-          onTap: (bool? value, int? index) async {
-            setState(() {
-              highPriorityTasks[index!].isDone = value ?? false;
-            });
-            final allData = PreferencesManager().getString('tasks');
-            if (allData != null) {
-              List<TaskModel> allDataList = (jsonDecode(allData) as List)
-                  .map((e) => TaskModel.fromJson(e))
-                  .toList();
-              final newIndex = allDataList.indexWhere((e) => e.taskID == highPriorityTasks[index!].taskID);
-              allDataList[newIndex] = highPriorityTasks[index!];
-              await PreferencesManager().setString('tasks', jsonEncode(allDataList));
-            }
-          }, onDelete: (int id) {
-            _deleteTask(id);
-        },
-        ),
+                tasks: highPriorityTasks,
+                onTap: (bool? value, int? index) async {
+                  setState(() {
+                    highPriorityTasks[index!].isDone = value ?? false;
+                  });
+                  final allData = PreferencesManager().getString('tasks');
+                  if (allData != null) {
+                    List<TaskModel> allDataList = (jsonDecode(allData) as List)
+                        .map((e) => TaskModel.fromJson(e))
+                        .toList();
+                    final newIndex = allDataList.indexWhere(
+                        (e) => e.taskID == highPriorityTasks[index!].taskID);
+                    allDataList[newIndex] = highPriorityTasks[index!];
+                    await PreferencesManager()
+                        .setString('tasks', jsonEncode(allDataList));
+                  }
+                },
+                onDelete: (int id) {
+                  _deleteTask(id);
+                },
+                onEdit: () {
+                  loadTasks();
+                },
+              ),
       ),
     );
   }

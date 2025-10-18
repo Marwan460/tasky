@@ -6,24 +6,29 @@ class SliverTaskListWidget extends StatelessWidget {
   final List<TaskModel> tasks;
   final Function(bool?, int?) onTap;
   final void Function(int) onDelete;
+  final void Function() onEdit;
 
   const SliverTaskListWidget(
-      {super.key, required this.tasks, required this.onTap, required this.onDelete});
+      {super.key,
+      required this.tasks,
+      required this.onTap,
+      required this.onDelete,
+      required this.onEdit});
 
   @override
   Widget build(BuildContext context) {
     return tasks.isEmpty
-        ?  SliverToBoxAdapter(
-          child: Center(
+        ? SliverToBoxAdapter(
+            child: Center(
               child: Text(
                 'No Tasks Yet',
                 style: Theme.of(context).textTheme.displayMedium,
               ),
             ),
-        )
+          )
         : SliverPadding(
-      padding: const EdgeInsets.only(bottom: 80),
-          sliver: SliverList.builder(
+            padding: const EdgeInsets.only(bottom: 80),
+            sliver: SliverList.builder(
               itemCount: tasks.length,
               itemBuilder: (context, index) {
                 return TaskContainer(
@@ -35,9 +40,10 @@ class SliverTaskListWidget extends StatelessWidget {
                   onDelete: (int id) {
                     onDelete(id);
                   },
+                  onEdit: () => onEdit(),
                 );
               },
             ),
-        );
+          );
   }
 }

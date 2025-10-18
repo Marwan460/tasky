@@ -165,6 +165,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       onDelete: (int id) {
                         _deleteTask(id);
                       },
+                      onEdit: () {
+                        loadTasks();
+                      },
                     )
             ],
           )),
